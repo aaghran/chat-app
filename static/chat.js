@@ -48,7 +48,7 @@ function Chat(settings) {
                         $('#messages').prepend($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
                     } else {
                         var isnew = "";
-                        if(msg.from.number != obj.reciever.number) {
+                        if(msg.from.number != obj.sender.number) {
                             isnew = "new";
                             rcvdMsg = true;
                         }
