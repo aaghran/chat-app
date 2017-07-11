@@ -114,10 +114,14 @@ function Chat(settings) {
                 var msg = JSON.parse(data[user_id]["lastMsg"]);
                 var newMsg_count = data[user_id]["newMsgCount"];
                 $(".friend-" + user_id).find('.msg-content').text(msg.msg_content);
-                $(".friend-" + user_id).find('.new-msg_count').text(newMsg_count);
-                if (newMsg_count > 0) {
-                    $(".friend-" + user_id).find('.new-msg_count').show();
+                console.log(msg.from.number);
+                if(msg.from.number != obj.sender.number) {
+                    $(".friend-" + user_id).find('.new-msg_count').text(newMsg_count);
+                    if (newMsg_count > 0) {
+                        $(".friend-" + user_id).find('.new-msg_count').show();
+                    }
                 }
+
             }
 
             console.log("Last Msg load " + user_id);
