@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+    <title>What's That? Whatsapp!</title>
+    <link rel="stylesheet" href="/static/style.css"/>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
+
+</head>
+<body>
+<div id="senderContainer" class="row col-x-12 full-height">
+    <div class="col-x-12 full-height senderContainer" style="padding-left: 0px">
+        <input class="box" id="number" autocomplete="off" placeholder="Enter Number"/>
+        <button class="button" id="addUserCTA">Log In</button>
+    </div>
+    <div class="col-x-12 full-height user-registration" style="padding-left: 0px">
+        <input class="box" id="reg-number" autocomplete="off" placeholder="Enter Number"/>
+        <input class="box" id="reg-name" autocomplete="off" placeholder="Enter Name"/>
+        <button class="button" id="regUserCTA">Register</button>
+    </div>
+</div>
+<div class="row col-x-12 full-height" id="chatContainer" style="display:none;">
+
+    <div class="col-x-4 friend-list full-height">
+        <div class="friend js-sender sender">
+            <div class="friend-photo"><span></span></div>
+            <div class="friend-detail">
+                <div class="friend-name"></div>
+            </div>
+            <input class="box" id="search" autocomplete="off" placeholder="Enter Friend Name"/>
+            <button class="button" id="searchCTA">Search</button>
+        </div>
+        <div id="friend-template" class="friend" style="display: none">
+            <div class="friend-photo"><span></span></div>
+            <div class="friend-detail">
+                <div class="friend-name"></div>
+                <div class="friend-msg">
+                    <span class="msg-content"></span>
+                    <span class="new-msg_count" style="display: none;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-x-8 full-height msgContainer" style="padding-left: 0px">
+        <div class="col-x-12 receiverHeader"></div>
+        <div class="col-x-12 msgDiv" id="messages">
+
+        </div>
+        <div class="col-x-12 msg-input">
+            <input class="box" id="msg" autocomplete="off"/>
+            <button class="button" id="sendCTA">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="/static/chat.js"></script>
+</body>
+</html>
