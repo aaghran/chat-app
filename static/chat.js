@@ -29,7 +29,7 @@ function Chat(settings) {
             console.log("Messages received :", data.length);
             if (!data.length)
                 return;
-            var msgKey = data[0].msgKey || "";
+            var msgKey = JSON.parse(data[0]).msgKey || "";
             if (opts.isAll && !opts.isNew && msgKey == obj.msgKey) {
                 $('#messages').empty();
             }
