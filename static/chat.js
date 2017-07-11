@@ -47,9 +47,14 @@ function Chat(settings) {
                     if (opts.isPrepend) {
                         $('#messages').prepend($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
                     } else {
-                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' new">').html("<span>" + msg.msg_content + "</span>"));
+                        var isnew = "";
+                        if(msg.from.number != obj.to.number) {
+                            isnew = "new";
+                            rcvdMsg = true;
+                        }
+                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' '+isnew+'">').html("<span>" + msg.msg_content + "</span>"));
                         console.log('Emit Message received :');
-                        rcvdMsg = true;
+
                     }
                     $('#messages').scrollTop($('#messages li:last').offset().top);
 
