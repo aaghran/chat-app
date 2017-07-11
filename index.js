@@ -144,8 +144,10 @@ app.get("/api/user/last-message/:msgKey/:userid", function (req, res) {
 
         res.send(tmp);
     });
-})
+});
 
+
+// Socket io bindings
 io.on("connection", function (socket) {
     socket.on("addUser", function (data) {
         // Add user to online status queue.
@@ -191,6 +193,7 @@ server.listen(port, function () {
 var storeMsg = function (data) {
 
 };
+
 
 
 var createOrUpdateUser = function (data) {
@@ -312,22 +315,6 @@ var loadMsgs = function (msgKey, cb) {
 };
 
 
-var readMsgs = function (data, cb) {
-    var key = "msgDataNew_1_2";
-    var obj = this;
-    var msgs = [];
-    client.lrange(key, 0, -1, function (error, result) {
-        // If result exists, update or else add to redis
-        if (result) {
-            msgs = result;
-            // console.log(result);
-        } else {
-            msgs = [];
-            console.log("No messages");
-        }
-        cb(msgs);
-    });
-};
 
 // Message!
 var Message = function (params) {

@@ -3,7 +3,6 @@
  */
 
 function Chat(settings) {
-    //Words solved.
     this.users = [];
     this.sender = {};
     this.reciever = {};
@@ -198,11 +197,9 @@ function Chat(settings) {
         obj.socket.emit('newMsgs', msgKey, function (responseData) {
             $("#messages").empty();
         });
-
         obj.socket.emit('loadMsgs', msgKey, function (responseData) {
             console.log("messages loaded ", responseData);
         });
-
     };
 
     this.bindEvents = function () {
