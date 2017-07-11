@@ -21,6 +21,8 @@ function Chat(settings) {
             var default_settings = {isAll: false, isPrepend: false, isNew: false};
             opts = $.extend({}, default_settings, opts || {});
             console.log("Messages received :", data.length);
+            if(!data.length)
+                return;
             if (opts.isAll) {
                 $('#messages').empty();
             }
