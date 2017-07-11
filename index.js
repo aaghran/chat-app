@@ -157,7 +157,8 @@ io.on("connection", function (socket) {
         console.log(data);
         var message = new Message(data);
         message.save_new();
-        io.emit("rcvMsg", [JSON.stringify(data)],{isNew: true});
+        io.emit("rcvMsg", [JSON.stringify(data)], {isNew: true});
+        io.emit("newNotif", [JSON.stringify({msgkey: data.msgKey, number: data.to.number})], {isNew: true});
         cb("Received");
     });
     socket.on("msgRead", function (data) {
@@ -193,7 +194,6 @@ server.listen(port, function () {
 var storeMsg = function (data) {
 
 };
-
 
 
 var createOrUpdateUser = function (data) {
@@ -313,7 +313,6 @@ var loadMsgs = function (msgKey, cb) {
         cb(msgs);
     });
 };
-
 
 
 // Message!

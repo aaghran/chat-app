@@ -66,6 +66,16 @@ function Chat(settings) {
                 $(".friend-msgKey-" + msg.msgKey).find('.new-msg_count').hide();
             }
         });
+
+        obj.socket.on("newNotif", function (data,opts) {
+            data = JSON.parse(data);
+            $.ajax({
+                url: "/api/user/last-message/" + data.msgkey + "/" + data.number, success: function (result) {
+                    console.log(result);
+                    obj.loadMsgs(result);
+                }
+            });
+        })
     };
 
 
