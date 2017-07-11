@@ -1,7 +1,7 @@
 "use strict";
 let app = require("express")();
 const server = require("http").Server(app);
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 3020;
 let bodyParser = require('body-parser');
 app.use(bodyParser({limit: '50mb'}));                      // pull information from html in POST
 app.use(bodyParser.json({limit: '5mb'})); // support json encoded bodies
