@@ -17,7 +17,7 @@ function Chat(settings) {
     this.init = function () {
         this.bindEvents();
 
-        if (getCookie("userId")) {
+        if (getCookie("userId") != "") {
             $('#number').val(getCookie("userId"));
             $('#addUserCTA').click();
             setCookie("userId", getCookie("userId"), 1)
@@ -29,7 +29,7 @@ function Chat(settings) {
             console.log("Messages received :", data.length);
             if (!data.length)
                 return;
-            if (opts.isAll && !opts.isPrepend) {
+            if (opts.isAll && !opts.isNew) {
                 $('#messages').empty();
             }
             if ($.isEmptyObject(obj.reciever)) {
@@ -47,7 +47,6 @@ function Chat(settings) {
                         $('#messages').prepend($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
                     } else {
                         $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' new">').html("<span>" + msg.msg_content + "</span>"));
-
                         console.log('Emit Message received :');
                         rcvdMsg = true;
                     }
@@ -255,7 +254,7 @@ function Chat(settings) {
         });
 
         $('#logout').click(function () {
-            setCookie("userId", null, 1);
+            setCookie("userId", "", 1);
             window.location.reload(true);
         });
 

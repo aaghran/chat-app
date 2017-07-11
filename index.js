@@ -155,7 +155,7 @@ io.on("connection", function (socket) {
         console.log(data);
         var message = new Message(data);
         message.save_new();
-        io.emit("rcvMsg", [JSON.stringify(data)]);
+        io.emit("rcvMsg", [JSON.stringify(data)],{isNew: true});
         cb("Received");
     });
     socket.on("msgRead", function (data) {
