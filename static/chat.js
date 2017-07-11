@@ -17,11 +17,17 @@ function Chat(settings) {
     this.init = function () {
         this.bindEvents();
 
+        if (getCookie("userId")) {
+            $('#number').val(getCookie("userId"));
+            $('#addUserCTA').click();
+            setCookie("userId", getCookie("userId"), 1)
+        }
+
         obj.socket.on('rcvMsg', function (data, opts) {
             var default_settings = {isAll: false, isPrepend: false, isNew: false};
             opts = $.extend({}, default_settings, opts || {});
             console.log("Messages received :", data.length);
-            if(!data.length)
+            if (!data.length)
                 return;
             if (opts.isAll && !opts.isPrepend) {
                 $('#messages').empty();
@@ -36,7 +42,7 @@ function Chat(settings) {
                 if (msg.from.number == obj.sender.number) {
                     className = "sent";
                 }
-                if (opts.isAll || (msg.msgKey == obj.msgKey && msg.from.number == obj.reciever.number && msg.to.number == obj.sender.number)) {
+                if (msg.msgKey == obj.msgKey && (opts.isAll || msg.from.number == obj.reciever.number && msg.to.number == obj.sender.number)) {
                     if (opts.isPrepend) {
                         $('#messages').prepend($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
                     } else {
@@ -93,7 +99,7 @@ function Chat(settings) {
             $(this).addClass("selected");
             obj.msgKey = msgKey;
         });
-        $('.js-friend:first').click();
+        $(".js-friend:first").click();
     };
 
     this.loadMsgs = function (data) {
@@ -124,6 +130,7 @@ function Chat(settings) {
                     $(".user-registration").hide();
                     $("#chatContainer").show();
                     obj.sender = result.sender;
+                    setCookie("userId", obj.sender.number, 1);
                     $(".js-sender .friend-name").text(obj.sender.name);
                     obj.loadFriends(result.friendList);
                 }
@@ -151,7 +158,7 @@ function Chat(settings) {
             }
             $(".js-friend").each(function (index, ele) {
                 var name = $(ele).attr("data-name");
-                if(name && name.indexOf(friend_name.replace(" ", "_").toLowerCase()) < 0) {
+                if (name && name.indexOf(friend_name.replace(" ", "_").toLowerCase()) < 0) {
                     $(ele).hide();
                 }
             })
@@ -247,8 +254,12 @@ function Chat(settings) {
             obj.registerUser({number: number, name: name});
         });
 
-        $(".js-friend:first").click();
-    }
+        $('#logout').click(function () {
+            setCookie("userId", null, 1);
+            window.location.reload(true);
+        });
+
+    };
 
     this.sendMsg = function (data) {
         obj.socket.emit('sendMsg', data, function (responseData) {
@@ -275,3 +286,24 @@ Person.prototype.valueOf = function () {
 $(function () {
     var chatObj = new Chat();
 });
+
+
+// Utility Functions
+var setCookie = function (cname, cvalue, exdays) {
+    var d = new Date();
+    exdays = parseInt(exdays);
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires + ";path=/";
+}
+
+var getCookie = function (cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
