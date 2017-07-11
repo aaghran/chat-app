@@ -1,4 +1,4 @@
-# Chat examp with Node and socket.io
+# Chat example with Node and socket.io
 
 Dependencies
 Redis
