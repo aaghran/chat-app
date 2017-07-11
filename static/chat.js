@@ -23,7 +23,7 @@ function Chat(settings) {
             console.log("Messages received :", data.length);
             if(!data.length)
                 return;
-            if (opts.isAll) {
+            if (opts.isAll && !opts.isPrepend) {
                 $('#messages').empty();
             }
             if ($.isEmptyObject(obj.reciever)) {
@@ -40,7 +40,7 @@ function Chat(settings) {
                     if (opts.isPrepend) {
                         $('#messages').prepend($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
                     } else {
-                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
+                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' new">').html("<span>" + msg.msg_content + "</span>"));
 
                         console.log('Emit Message received :');
                         rcvdMsg = true;
@@ -93,7 +93,7 @@ function Chat(settings) {
             $(this).addClass("selected");
             obj.msgKey = msgKey;
         });
-
+        $('.js-friend:first').click();
     };
 
     this.loadMsgs = function (data) {

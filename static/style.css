@@ -2604,6 +2604,10 @@ h6,
     text-align: right;
 }
 
+.new {
+    color : white;
+}
+
 .msgDiv .msg-rcvd span {
     background-color: red;
     float: left;
