@@ -5,8 +5,8 @@
   "dependencies": {
     "express": "^4.15.2",
     "socket.io": "^1.7.4",
+    "body-parser": "^1.17.2",
     "redis": "*.*.*"
-
   },
   "scripts": {
     "start": "node index.js"
