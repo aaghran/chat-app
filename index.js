@@ -34,6 +34,9 @@ app.get("/static/:fileName", function (req, res) {
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 });
+app.get("/chat", function (req, res) {
+    res.sendFile(__dirname + "/index.html");
+});
 
 /**
  * Create or Update User Information
