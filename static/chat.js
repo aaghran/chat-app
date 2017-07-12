@@ -30,7 +30,7 @@ function Chat(settings) {
                 return;
             var msgKey = JSON.parse(data[0]).msgKey || "";
             if (opts.isAll && !opts.isNew && msgKey == obj.msgKey) {
-                $('#messages').empty();
+                $('#messages li:not(.append)').remove();
             }
             if ($.isEmptyObject(obj.reciever)) {
                 return;
@@ -51,7 +51,7 @@ function Chat(settings) {
                             isnew = "new";
                             rcvdMsg = true;
                         }
-                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' '+isnew+'">').html("<span>" + msg.msg_content + "</span>"));
+                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' '+isnew+' append">').html("<span>" + msg.msg_content + "</span>"));
                         console.log('Emit Message received :');
 
                     }
