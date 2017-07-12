@@ -122,9 +122,10 @@ function Chat(settings) {
             if (data[user_id]["lastMsg"]) {
                 var msg = JSON.parse(data[user_id]["lastMsg"]);
                 var newMsg_count = data[user_id]["newMsgCount"];
+                var msgKey = $(".friend-" + user_id).attr("data-msgkey");
                 $(".friend-" + user_id).find('.msg-content').text(msg.msg_content);
                 console.log(msg.from.number);
-                if(msg.from.number != obj.sender.number) {
+                if(msg.from.number != obj.sender.number && msgKey == msg.msgKey) {
                     $(".friend-" + user_id).find('.new-msg_count').text(newMsg_count);
                     if (newMsg_count > 0) {
                         $(".friend-" + user_id).find('.new-msg_count').show();
