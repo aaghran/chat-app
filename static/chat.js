@@ -47,11 +47,11 @@ function Chat(settings) {
                         $('#messages').prepend($('<li class="u_ellipsis msg-content msg-' + className + '">').html("<span>" + msg.msg_content + "</span>"));
                     } else {
                         var isnew = "";
-                        if(msg.from.number != obj.sender.number) {
+                        if (msg.from.number != obj.sender.number) {
                             isnew = "new";
                             rcvdMsg = true;
                         }
-                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' '+isnew+' append">').html("<span>" + msg.msg_content + "</span>"));
+                        $('#messages').append($('<li class="u_ellipsis msg-content msg-' + className + ' ' + isnew + ' append">').html("<span>" + msg.msg_content + "</span>"));
                         console.log('Emit Message received :');
 
                     }
@@ -67,7 +67,7 @@ function Chat(settings) {
             }
         });
 
-        obj.socket.on("newNotif", function (data,opts) {
+        obj.socket.on("newNotif", function (data, opts) {
             data = JSON.parse(data);
             $.ajax({
                 url: "/api/user/last-message/" + data.msgkey + "/" + data.number, success: function (result) {
@@ -121,17 +121,19 @@ function Chat(settings) {
         for (var user_id in data) {
             if (data[user_id]["lastMsg"]) {
                 var msg = JSON.parse(data[user_id]["lastMsg"]);
-                var newMsg_count = data[user_id]["newMsgCount"];
-                var msgKey = $(".friend-" + user_id).attr("data-msgkey");
-                $(".friend-" + user_id).find('.msg-content').text(msg.msg_content);
-                console.log(msg.from.number);
-                if(msg.from.number != obj.sender.number && msgKey == msg.msgKey) {
-                    $(".friend-" + user_id).find('.new-msg_count').text(newMsg_count);
-                    if (newMsg_count > 0) {
-                        $(".friend-" + user_id).find('.new-msg_count').show();
+                if (msg.to.number == obj.sender.number || msg.from.number == obj.sender.number ) {
+                    var newMsg_count = data[user_id]["newMsgCount"];
+                    var msgKey = $(".friend-" + user_id).attr("data-msgkey");
+                    console.log(msgKey);
+                    $(".friend-" + user_id).find('.msg-content').text(msg.msg_content);
+                    console.log(msg.from.number);
+                    if (msg.from.number != obj.sender.number) {
+                        $(".friend-" + user_id).find('.new-msg_count').text(newMsg_count);
+                        if (newMsg_count > 0) {
+                            $(".friend-" + user_id).find('.new-msg_count').show();
+                        }
                     }
                 }
-
             }
 
             console.log("Last Msg load " + user_id);
@@ -232,6 +234,7 @@ function Chat(settings) {
             data.msgKey = obj.msgKey;
             $('#messages').append($('<li class="u_ellipsis msg-content msg-' + "sent" + '">').html("<span>" + data.msg_content + "</span>"));
             $('#messages').scrollTop($('#messages li:last').offset().top);
+            $(".friend-" + data.to.number).find('.msg-content').text(data.msg_content);
             obj.sendMsg(data);
         });
 
@@ -266,6 +269,11 @@ function Chat(settings) {
             var number = $('#reg-number').val();
             var name = $('#reg-name').val();
             if (!number.trim()) {
+                alert("Enter a number");
+                return false;
+            }
+            if (!name.trim()) {
+                alert("Enter a name");
                 return false;
             }
             obj.registerUser({number: number, name: name});
