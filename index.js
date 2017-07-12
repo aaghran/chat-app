@@ -158,7 +158,7 @@ io.on("connection", function (socket) {
         var message = new Message(data);
         message.save_new();
         io.emit("rcvMsg", [JSON.stringify(data)], {isNew: true});
-        io.emit("newNotif", [JSON.stringify({msgkey: data.msgKey, number: data.to.number})], {isNew: true});
+        io.emit("newNotif", [JSON.stringify({msgkey: data.msgKey, number: data.from.number})], {isNew: true});
         cb("Received");
     });
     socket.on("msgRead", function (data) {
